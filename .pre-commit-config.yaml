@@ -1,0 +1,50 @@
+default_stages: [commit, push]
+
+repos:
+  # https://pre-commit.com/hooks.html
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.8.0
+    hooks:
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      - id: end-of-file-fixer
+        exclude: LICENSE
+      - id: trailing-whitespace
+        exclude: ^exports/
+      - id: mixed-line-ending
+        args: ["--fix=lf"]
+      - id: check-merge-conflict
+      - id: check-ast
+      - id: check-executables-have-shebangs
+      - id: debug-statements
+      - id: check-added-large-files
+        args: ["--maxkb=100"]
+        exclude: |
+          (?x)^(
+            ^exports/|
+            ^poetry.lock
+          )$
+      - id: check-docstring-first
+      - id: detect-private-key
+      - id: check-case-conflict
+
+  - repo: local
+    hooks:
+      - id: isort
+        name: isort
+        entry: poetry run isort --settings-path pyproject.toml
+        types: [python]
+        language: system
+
+      - id: mypy
+        name: mypy
+        entry: poetry run mypy
+        additional_dependencies: ["types-pyyaml"]
+        exclude: tests/
+
+      - id: nbstripout
+        name: nbstripout
+        entry: poetry run nbstripout
+        language: python
+        types: [jupyter]
