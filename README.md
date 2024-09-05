@@ -8,7 +8,8 @@ The project includes data processing, neural network training and inference for 
 
 ## Repository Contents
 
-- [data](data) - data for neural network training
+- [demo](demo) - notebooks to demonstrate the neural network
+- [drone_detection](drone_detection) - source files of the project
 
 ## Data Links
   - https://www.kaggle.com (datadatad)
