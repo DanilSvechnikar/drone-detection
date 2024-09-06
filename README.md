@@ -10,6 +10,8 @@ The project includes data processing, neural network training and inference for 
 
 - [demo](demo) - notebooks to demonstrate the neural network
 - [drone_detection](drone_detection) - source files of the project
+- [notebooks](notebooks) - directory for `jupyter` notebooks to solve problems
 
 ## Data Links
-  - https://www.kaggle.com (datadatad)
+  - https://www.kaggle.com/datasets/sshikamaru/drone-yolo-detection (Dataset 1)
+  - https://universe.roboflow.com/drone-detection-pexej/drone-detection-data-set-yolov7/dataset/1 (Dataset 2)
