@@ -12,7 +12,7 @@ endif
 
 #* Installation
 .PHONY: project-init
-project-init: poetry-install tools-install
+project-init: poetry-install
 
 .PHONY: poetry-install
 poetry-install:
