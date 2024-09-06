@@ -74,7 +74,14 @@ The project includes data processing, neural network training and inference for 
    ```
 
 ## Using a neural network
-Textexttexttexttexttexttext
+> **Note**: Importing torch, ultralytics packages and initializing the model takes a lot of time!
+
+#### Check cuda support
+   ```bash
+   poetry run python drone_detection/check_cuda.py
+   ```
+
+using NN
 
 ## Data Links
   - https://www.kaggle.com/datasets/sshikamaru/drone-yolo-detection (Dataset 1)
