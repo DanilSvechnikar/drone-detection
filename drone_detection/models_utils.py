@@ -2,23 +2,15 @@
 from pathlib import Path
 
 import cv2
-import torch.cuda
+from omegaconf import DictConfig
 from ultralytics import YOLO
 
-from .config import MODELS_DIR
 
-PARAMS_EVAL = {
-    "device": "cuda" if torch.cuda.is_available() else "cpu",
-    "imgsz": 640,
-    "iou": 0.6,
-    "conf": 0.20,
-}
-
-name_model = "yolov10n.pt"
-MODEL = YOLO(MODELS_DIR / name_model)
-
-
-def evaluate_model_video(path_file: Path) -> None:
+def evaluate_model_video(
+    model: YOLO,
+    path_file: Path,
+    params_eval: DictConfig,
+) -> None:
     """Evaluate model on video."""
     cap = cv2.VideoCapture(str(path_file))
 
@@ -26,7 +18,7 @@ def evaluate_model_video(path_file: Path) -> None:
     while cap.isOpened():
         success, frame = cap.read()
         if success:
-            results = MODEL(frame, save=False, **PARAMS_EVAL)
+            results = model.predict(frame, save=False, **params_eval)
 
             annotated_frame = results[0].plot()
             cv2.imshow("Drone Detection", annotated_frame)

@@ -68,7 +68,7 @@ The project includes data processing, neural network training and inference for 
     git clone https://github.com/DanilSvechnikar/drone-detection.git
    ```
 
-2. Packet initialization
+2. Packet initialization. You must be inside the project directory!
     ```bash
    make project-init
    ```
