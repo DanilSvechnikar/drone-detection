@@ -16,7 +16,7 @@ project-init: poetry-install
 
 .PHONY: poetry-install
 poetry-install:
-	poetry install -n
+	poetry install --without dev -n
 	#poetry run mypy --install-types --non-interactive ./
 
 .PHONY: poetry-lock-update
