@@ -76,12 +76,25 @@ The project includes data processing, neural network training and inference for 
 ## Using a neural network
 > **Note**: Importing torch, ultralytics packages and initializing the model takes a lot of time!
 
-#### Check cuda support
+### Check cuda support
    ```bash
    poetry run python drone_detection/check_cuda.py
    ```
 
-using NN
+### Startup
+There are two choices:
+1. Through a [inference.py](./demo/inference.py):
+   ```bash
+   poetry run python ./demo/inference.py name_data=your_img.jpg name_model=yolov10s.pt
+   ```
+   Or just
+   ```bash
+   poetry run python ./demo/inference.py
+   ```
+
+   - name_data - filename at path ./data/demo_data/*your_file.jpg*. By **default** is test_video.mp4
+   - name_model - model name at path ./models/*your_model.pt*. By **default** is yolov10n.pt
+
 
 ## Data Links
   - https://www.kaggle.com/datasets/sshikamaru/drone-yolo-detection (Dataset 1)
