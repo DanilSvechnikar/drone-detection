@@ -1,0 +1,14 @@
+# n - nano model
+# s - small model
+# m - medium model
+name_model: "yolov10n.pt"
+
+name_data: "test_video.mp4"
+
+params_eval:
+    imgsz: 640
+    iou: 0.6
+    conf: 0.20
+
+    # If there is no cuda, it will automatically be cpu
+    device: cuda
