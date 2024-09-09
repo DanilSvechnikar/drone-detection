@@ -67,14 +67,16 @@ The project includes data processing, neural network training and inference for 
 
     ```bash
     git clone https://github.com/DanilSvechnikar/drone-detection.git
+    cd drone-detection
+    git checkout develop
    ```
 
-2. Packet initialization. You must be inside the project directory!
-> **Note**: It is important that poetry sees the correct version of python on the system!
-
+2. Packet initialization (about +-5GB!)
    ```bash
    make project-init
    ```
+
+> **Note**: It is important that poetry sees the correct version of python on the system!
 
 ## Using a neural network
 > **Note**: Importing torch, ultralytics packages and initializing the model takes a lot of time!
@@ -88,7 +90,7 @@ The project includes data processing, neural network training and inference for 
 There are two choices:
 1. Through a [inference.py](./demo/inference.py):
    ```bash
-   poetry run python ./demo/inference.py name_data=your_img.jpg name_model=yolov10s.pt
+   poetry run python ./demo/inference.py name_data=your_img.jpg name_model=your_model.pt
    ```
 
    - name_data - filename at path ./data/demo_data/*your_file.jpg*. By **default** is test_video.mp4
