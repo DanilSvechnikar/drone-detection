@@ -108,3 +108,4 @@ There are two choices:
 ## Data Links
   - https://www.kaggle.com/datasets/sshikamaru/drone-yolo-detection (Dataset 1)
   - https://universe.roboflow.com/drone-detection-pexej/drone-detection-data-set-yolov7/dataset/1 (Dataset 2)
+  - https://app.roboflow.com/dronedetection-osldo/drone-detection-nugaj/4 (Self-Labeled Data)
