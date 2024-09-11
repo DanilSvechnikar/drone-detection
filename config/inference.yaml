@@ -1,9 +1,10 @@
 # n - nano model
 # s - small model
 # m - medium model
-name_model: "yolov10n.pt"
+name_model: "yolov10n_my-data.pt"
 
-name_data: "test_video.mp4"
+camera: False
+name_data: "test_drone.mp4"
 
 params_eval:
     # 416, 640
