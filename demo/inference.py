@@ -5,7 +5,13 @@ from omegaconf import DictConfig, OmegaConf
 from ultralytics import YOLO
 
 from drone_detection.config import CONFIG_DIR, DEMO_DATA_DIR, MODELS_DIR
-from drone_detection.models_utils import evaluate_model_video
+from drone_detection.models_utils import (
+    evaluate_model_video,
+    open_web_camera_with_model,
+)
+
+# Supported video extensions (That's not all!)
+video_file_extensions = (".mp4", ".avi",)
 
 
 @hydra.main(version_base=None, config_path=str(CONFIG_DIR), config_name="inference.yaml")
@@ -20,7 +26,12 @@ def inference(cfg: DictConfig) -> None:
     OmegaConf.update(cfg, "params_eval.device", device)
 
     model = YOLO(model_path)
-    if "mp4" in cfg.name_data:
+
+    if cfg.camera:
+        open_web_camera_with_model(model, cfg.params_eval)
+        return
+
+    if data_path.suffix.endswith(video_file_extensions):
         evaluate_model_video(model, data_path, cfg.params_eval)
         return
 
