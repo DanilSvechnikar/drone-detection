@@ -1,16 +1,17 @@
 # n - nano model
 # s - small model
 # m - medium model
-name_model: "yolov10n_my-data.pt"
+name_model: "yolov10n_best.pt"
 
 camera: False
-name_data: "test_drone.mp4"
+name_data: "test_img.jpg"
 
 params_eval:
     # 416, 640
     imgsz: 640
-#    iou: 0.6
-#    conf: 0.20
+
+    conf: 0.5
+    # iou: 0.6
 
     # If there is no cuda, it will automatically be cpu
     device: cuda
