@@ -90,15 +90,15 @@ The project includes data processing, neural network training and inference for 
 There are two choices:
 1. Through a [inference.py](./demo/inference.py):
    ```bash
-   poetry run python ./demo/inference.py name_data=your_img.jpg name_model=your_model.pt
+   poetry run python ./demo/inference.py
    ```
 
-   - name_data - filename at path ./data/demo_data/*your_file.jpg*. By **default** is test_video.mp4
-   - name_model - model name at path ./models/*your_model.pt*. By **default** is yolov10n.pt
+    Or
+   - name_data - filename at path ./data/demo_data/*your_file*. By **default** is test_img.jpg
+   - name_model - model name at path ./models/*your_model.pt*. By **default** is yolov10n_best.pt
 
-   Or just
    ```bash
-   poetry run python ./demo/inference.py
+   poetry run python ./demo/inference.py name_data=your_img_or_video name_model=your_model.pt
    ```
 
 2. Through a [inference_jupyter.ipynb](./demo/inference_jupyter.ipynb) if you have the opportunity:
@@ -106,6 +106,4 @@ There are two choices:
 
 
 ## Data Links
-  - https://www.kaggle.com/datasets/sshikamaru/drone-yolo-detection (Dataset 1)
-  - https://universe.roboflow.com/drone-detection-pexej/drone-detection-data-set-yolov7/dataset/1 (Dataset 2)
-  - https://app.roboflow.com/dronedetection-osldo/drone-detection-nugaj/4 (Self-Labeled Data)
+  - https://universe.roboflow.com/dronedetection-osldo/drone-detection-nugaj/dataset/5 (Self-Labeled Data)
