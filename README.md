@@ -66,9 +66,8 @@ The project includes data processing, neural network training and inference for 
 1. Clone project
 
     ```bash
-    git clone https://github.com/DanilSvechnikar/drone-detection.git
+    git clone https://github.com/DanilSvechnikar/drone-detection.git -b develop
     cd drone-detection
-    git checkout develop
    ```
 
 2. Packet initialization (about +-5GB!)
