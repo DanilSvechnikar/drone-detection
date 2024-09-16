@@ -28,11 +28,13 @@ def inference(cfg: DictConfig) -> None:
     model = YOLO(model_path)
 
     if cfg.camera:
-        open_web_camera_with_model(model, cfg.params_eval)
+        for bbox in open_web_camera_with_model(model, cfg.params_eval):
+            print(bbox)
         return
 
     if data_path.suffix.endswith(video_file_extensions):
-        evaluate_model_video(model, data_path, cfg.params_eval)
+        for bbox in evaluate_model_video(model, data_path, cfg.params_eval):
+            print(bbox)
         return
 
     results = model.predict(data_path, **cfg.params_eval)

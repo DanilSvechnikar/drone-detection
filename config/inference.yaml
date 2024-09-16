@@ -15,3 +15,6 @@ params_eval:
 
     # If there is no cuda, it will automatically be cpu
     device: cuda
+
+    verbose: False
+    save: False
