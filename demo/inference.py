@@ -23,21 +23,22 @@ def inference(cfg: DictConfig) -> None:
     model_path = MODELS_DIR / cfg.name_model
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    OmegaConf.update(cfg, "params_eval.device", device)
+    OmegaConf.update(cfg, "params_predict.device", device)
+    OmegaConf.update(cfg, "params_tracking.device", device)
 
     model = YOLO(model_path)
 
     if cfg.camera:
-        for bbox in open_web_camera_with_model(model, cfg.params_eval):
+        for bbox in open_web_camera_with_model(model, cfg.resize_frame, cfg.params_tracking):
             print(bbox)
         return
 
     if data_path.suffix.endswith(video_file_extensions):
-        for bbox in evaluate_model_video(model, data_path, cfg.params_eval):
+        for bbox in evaluate_model_video(model, data_path, cfg.resize_frame, cfg.params_tracking):
             print(bbox)
         return
 
-    results = model.predict(data_path, **cfg.params_eval)
+    results = model.predict(data_path, **cfg.params_predict)
     results[0].show()
 
 
