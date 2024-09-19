@@ -8,29 +8,6 @@ from omegaconf import DictConfig
 from ultralytics import YOLO
 
 
-def resize_with_pad(frame: npt.NDArray, target_size: tuple[int, int]) -> npt.NDArray:
-    """Resize image with black padding."""
-    height, width = frame.shape[:2]
-    target_h, target_w = target_size
-
-    scale = min(target_w / width, target_h / height)
-    new_w = int(width * scale)
-    new_h = int(height * scale)
-
-    resized_frame = cv2.resize(frame, (new_w, new_h))
-
-    # Calculate padding
-    delta_w = target_w - new_w
-    delta_h = target_h - new_h
-    top, bottom = delta_h // 2, delta_h - (delta_h // 2)
-    left, right = delta_w // 2, delta_w - (delta_w // 2)
-
-    color = [0, 0, 0]
-    padded_frame = cv2.copyMakeBorder(resized_frame, top, bottom, left, right, cv2.BORDER_CONSTANT, value=color)
-
-    return padded_frame
-
-
 def evaluate_model_video(
     model: YOLO,
     path_file: Path,
@@ -51,6 +28,7 @@ def evaluate_model_video(
                 frame = resize_with_pad(frame, target_size=dsize)
 
             results = model.track(frame, **params_tracking)
+            # results = model.predict(frame, verbose=False, save=False, conf=0.5)
 
             annotated_frame = results[0].plot()
             cv2.imshow("Drone Detection", annotated_frame)
@@ -106,3 +84,26 @@ def open_web_camera_with_model(
 
     cap.release()
     cv2.destroyAllWindows()
+
+
+def resize_with_pad(frame: npt.NDArray, target_size: tuple[int, int]) -> npt.NDArray:
+    """Resize image with black padding."""
+    height, width = frame.shape[:2]
+    target_h, target_w = target_size
+
+    scale = min(target_w / width, target_h / height)
+    new_w = int(width * scale)
+    new_h = int(height * scale)
+
+    resized_frame = cv2.resize(frame, (new_w, new_h), interpolation=cv2.INTER_AREA)
+
+    # Calculate padding
+    delta_w = target_w - new_w
+    delta_h = target_h - new_h
+    top, bottom = delta_h // 2, delta_h - (delta_h // 2)
+    left, right = delta_w // 2, delta_w - (delta_w // 2)
+
+    color = [0, 0, 0]
+    padded_frame = cv2.copyMakeBorder(resized_frame, top, bottom, left, right, cv2.BORDER_CONSTANT, value=color)
+
+    return padded_frame

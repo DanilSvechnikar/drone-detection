@@ -3,7 +3,7 @@ name_model: "yolov10n_best.pt"
 camera: False
 name_data: "test_img.jpg"
 
-resize_frame: False
+resize_frame: True
 
 params_predict:
     # 416, 640
@@ -32,4 +32,6 @@ params_tracking:
     verbose: False
     save: False
     persist: True
-    tracker: botsort.yaml
+
+    # bytetrack.yaml botsort.yaml
+    tracker: bytetrack.yaml
