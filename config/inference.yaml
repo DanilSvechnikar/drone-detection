@@ -1,0 +1,28 @@
+name_model: "yolov10s_best.pt"
+
+# NOTE: If enable_camera is True, then name_data will be ignored
+camera: False
+
+# Path to name_data: ./drone-detection/data/demo_data
+name_data: "test_5.mp4"
+
+resize_frame: True
+draw_best_box: False
+
+params_predict:
+    # 416, 640
+    imgsz: 640
+
+    conf: 0.5
+    # iou: 0.6
+
+    # If there is no cuda, it will automatically be cpu
+    device: cuda
+
+    verbose: False
+    save: False
+
+    # Tracking params
+    persist: True
+    # bytetrack.yaml - faster, botsort.yaml - slower
+    tracker: bytetrack.yaml

@@ -3,7 +3,7 @@ default_stages: [commit, push]
 repos:
   # https://pre-commit.com/hooks.html
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.8.0
+    rev: v4.6.0
     hooks:
       - id: check-yaml
       - id: check-toml
@@ -37,14 +37,14 @@ repos:
         types: [python]
         language: system
 
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.7.1
+    hooks:
+      - id: nbstripout
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.11.2
+    hooks:
       - id: mypy
-        name: mypy
-        entry: poetry run mypy
         additional_dependencies: ["types-pyyaml"]
         exclude: tests/
-
-      - id: nbstripout
-        name: nbstripout
-        entry: poetry run nbstripout
-        language: python
-        types: [jupyter]
