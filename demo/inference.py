@@ -17,8 +17,9 @@ def inference(cfg: DictConfig) -> None:
     # Model show be in the path ./drone-detection/models/
     model_path = MODELS_DIR / cfg.name_model
 
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    OmegaConf.update(cfg, "params_predict.device", device)
+    if cfg.params_predict.device != "cpu":
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        OmegaConf.update(cfg, "params_predict.device", device)
 
     model = YOLO(model_path)
 
