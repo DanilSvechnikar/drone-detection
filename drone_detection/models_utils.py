@@ -1,4 +1,5 @@
 """This module contain functions for working with model."""
+import logging
 from pathlib import Path
 
 import cv2
@@ -6,6 +7,8 @@ import numpy as np
 import numpy.typing as npt
 from omegaconf import DictConfig, OmegaConf
 from ultralytics import YOLO
+
+logger = logging.getLogger(__name__)
 
 # You can add more, but hz, I did not check
 IMAGE_EXTS = {".jpg", ".jpeg", ".png"}
@@ -22,6 +25,8 @@ def predict_with_model(
 ) -> npt.NDArray[np.float32]:
     """Predict with model on video or camera and yield bbox."""
     # NOTE: If enable_camera is True, then path_file will be ignored
+    logger.info(f"Device Type: {params_tracking.device}")
+
     if enable_camera:
         cap = cv2.VideoCapture(0)
     elif path_file:

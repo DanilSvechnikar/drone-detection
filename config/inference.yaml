@@ -1,4 +1,4 @@
-name_model: "yolov10s_best.pt"
+name_model: "yolov10n_best.pt"
 
 # NOTE: If enable_camera is True, then name_data will be ignored
 camera: False

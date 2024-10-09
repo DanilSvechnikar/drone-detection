@@ -14,10 +14,11 @@ endif
 .PHONY: project-init
 project-init: poetry-install
 
+# poetry run mypy --install-types --non-interactive ./
 .PHONY: poetry-install
 poetry-install:
-	poetry install --without dev -n
-	#poetry run mypy --install-types --non-interactive ./
+	poetry lock --no-update
+	poetry install --without dev
 
 .PHONY: poetry-lock-update
 poetry-lock-update:
@@ -59,3 +60,7 @@ build-remove:
 
 .PHONY: clean-all
 clean-all: pycache-remove build-remove
+
+.PHONY: poetry-clear
+poetry-clear:
+	poetry cache clear --all .
