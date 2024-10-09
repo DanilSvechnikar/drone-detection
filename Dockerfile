@@ -36,14 +36,6 @@ COPY README.md .
 RUN make poetry-clear
 #RUN rm requirements.txt pyproject.toml README.md poetry.lock Makefile
 
-# Set permissions
-#RUN chown ${NB_UID}:${NB_GID} -R /app
-# Fix after poetry install
-#RUN chown ${NB_UID}:${NB_GID} -R /home/jovyan/.local
-
-# Return user
-#USER ${NB_UID}
-
 #CMD ["start-notebook.sh", "--ServerApp.token=''", "--ServerApp.password=''"]
 #CMD ["python", "./demo/inference.py"]
 CMD ["tail", "-f", "/dev/null"]
