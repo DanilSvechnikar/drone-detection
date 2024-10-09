@@ -1,0 +1,37 @@
+# The file contains hyperparameters of training and validation.
+
+# clearml settings
+clearml_enable: False
+clearml_proj_name: "lightning_study"
+task_name: "exp"
+
+save_dir: "./runs"
+dataset_path: "./dataset"
+
+resume_train: False
+model_path: "./runs/lightning_logs/version_0/checkpoints/best.ckpt"
+
+save_as_pt: False
+
+# Seed params
+seed_everything_enable: True
+seed: 42
+seed_workers: False
+deterministic: True
+
+profiler_enable: False
+lr: 1.0e-3
+batch_size: 64
+num_epochs: 3
+num_workers: 0
+early_stopping_patience: 4
+
+# lr_scheduler settings
+lr_scheduler_enable: True
+lr_scheduler_factor: 0.1
+lr_scheduler_patience: 3
+
+model:
+    input_size: 784
+    num_hid_neurons: 30
+    num_classes: 10
