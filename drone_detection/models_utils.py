@@ -16,13 +16,13 @@ VIDEO_EXTS = {".mp4"}
 
 
 def predict_with_model(
-    model: YOLO,
-    path_file: Path,
+    model,
+    path_file,
     resize_frame: bool,
     draw_best_box: bool,
     params_tracking: DictConfig,
     enable_camera: bool = False,
-) -> npt.NDArray[np.float32]:
+) -> npt.NDArray:
     """Predict with model on video or camera and yield bbox."""
     # NOTE: If enable_camera is True, then path_file will be ignored
     logger.info(f"Device Type: {params_tracking.device}")

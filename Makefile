@@ -10,19 +10,19 @@ else
 	MKDIR_CMD := mkdir -p
 endif
 
+
 #* Installation
 .PHONY: project-init
-project-init: poetry-install
+project-init: poetry-install tools-install
 
-# poetry run mypy --install-types --non-interactive ./
 .PHONY: poetry-install
 poetry-install:
-	poetry lock --no-update
-	poetry install --without dev
+	poetry install --no-interaction --no-cache
 
-.PHONY: poetry-lock-update
-poetry-lock-update:
-	poetry lock --no-update
+.PHONY: pip-install
+pip-install: poetry-export
+	pip3 install --no-cache-dir --upgrade pip && \
+	pip3 install --no-cache-dir -r requirements.txt
 
 .PHONY: poetry-export
 poetry-export:
@@ -36,19 +36,13 @@ poetry-export-dev:
 tools-install:
 	poetry run pre-commit install --hook-type prepare-commit-msg --hook-type pre-commit
 	poetry run nbdime config-git --enable
+	#poetry run mypy --install-types --non-interactive ./
 
-#* Notebooks
-.PHONY: nbextention-toc-install
-nbextention-toc-install:
-	poetry run jupyter contrib nbextension install --user
-	poetry run jupyter nbextension enable toc2/main
-
-#* Linting
-.PHONY: mypy
-mypy:
-	poetry run mypy --config-file pyproject.toml ./
 
 #* Cleaning
+.PHONY: clean-all
+clean-all: pycache-remove build-remove poetry-cache-clear pip-cache-clear
+
 .PHONY: pycache-remove
 pycache-remove:
 	find . | grep -E "(__pycache__|\.pyc|\.pyo$$)" | xargs rm -rf
@@ -58,9 +52,38 @@ pycache-remove:
 build-remove:
 	rm -rf build/
 
-.PHONY: clean-all
-clean-all: pycache-remove build-remove
+.PHONY: poetry-cache-clear
+poetry-cache-clear:
+	poetry cache clear --all . -n
 
-.PHONY: poetry-clear
-poetry-clear:
-	poetry cache clear --all .
+.PHONY: pip-cache-clear
+pip-cache-clear:
+	pip cache purge
+
+
+#* Tests
+PYTHONHASHSEED ?= 123456789
+
+PYTEST_USER_OPTS ?=
+PYTEST_USE_COLOR ?= yes
+PYTEST_OPTS ?= -v --durations=10 --color=${PYTEST_USE_COLOR} ${PYTEST_USER_OPTS}
+
+TEST_START_CMD = poetry run pytest
+
+COVERAGE_CACHE_DIRECTORY = tests_cache
+PYTEST_LOGS_DIR ?= logs
+
+.PHONY: tests-logs-dir
+tests-logs-dir:
+	${MKDIR_CMD} ${PYTEST_LOGS_DIR}
+
+.PHONY: tests-unit
+tests-unit: tests-logs-dir
+	COVERAGE_FILE=${COVERAGE_CACHE_DIRECTORY}/.coverage PYTHONHASHSEED=${PYTHONHASHSEED} ${TEST_START_CMD} -m unit ${PYTEST_OPTS}
+
+.PHONY: tests-interface
+tests-interface: tests-logs-dir
+	COVERAGE_FILE=${COVERAGE_CACHE_DIRECTORY}/.coverage PYTHONHASHSEED=${PYTHONHASHSEED} ${TEST_START_CMD} -m interface ${PYTEST_OPTS}
+
+.PHONY: run-tests
+run-tests: tests-unit tests-interface

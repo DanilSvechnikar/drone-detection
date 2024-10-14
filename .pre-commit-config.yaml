@@ -1,4 +1,4 @@
-default_stages: [commit, push]
+default_stages: [pre-commit, pre-push]
 
 repos:
   # https://pre-commit.com/hooks.html
@@ -29,22 +29,32 @@ repos:
       - id: detect-private-key
       - id: check-case-conflict
 
+
   - repo: local
     hooks:
       - id: isort
         name: isort
         entry: poetry run isort --settings-path pyproject.toml
-        types: [python]
         language: system
+        types: [python]
 
-  - repo: https://github.com/kynan/nbstripout
-    rev: 0.7.1
-    hooks:
       - id: nbstripout
+        name: nbstripout
+        description: Strip output from Jupyter and IPython notebooks
+        entry: poetry run nbstripout
+        language: python
+        types: [jupyter]
 
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.11.2
-    hooks:
       - id: mypy
-        additional_dependencies: ["types-pyyaml"]
-        exclude: tests/
+        name: mypy
+        description: Check types
+        entry: poetry run mypy --config-file pyproject.toml
+        language: python
+        types: [python]
+
+    #      - id: flake8
+#        name: flake8
+#        description: Python style guide enforcement
+#        entry: flake8
+#        language: python
+#        types: [python]
