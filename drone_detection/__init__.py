@@ -1,3 +1,5 @@
-"""Initializing a package with modules"""
+# flake8: noqa
+"""Initializing a package with modules."""
 
-from drone_detection import config
+
+from .config import *

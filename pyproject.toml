@@ -31,6 +31,7 @@ nbdime = "^4.0.2"
 jupyter = "^1.1.1"
 pre-commit = "^4.0.1"
 nbstripout = "^0.7.1"
+flake8 = "^7.1.1"
 
 
 [[tool.poetry.source]]
@@ -107,3 +108,6 @@ warn_return_any = false
 warn_unreachable = true
 warn_unused_configs = true
 warn_unused_ignores = true
+
+[tool.mypy-ultralytics]
+ignore_missing_imports = true

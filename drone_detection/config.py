@@ -1,5 +1,4 @@
 """This file contains global paths and settings."""
-
 from pathlib import Path
 
 # Paths

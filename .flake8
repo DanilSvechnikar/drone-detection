@@ -1,0 +1,40 @@
+[flake8]
+ignore=
+    ; found 'f' string - we use them
+    WPS305,
+    ; asserts detected
+    S101,
+    ; found using @staticmethod
+    WPS602,
+    ; found a too complex f-string - we use them
+    WPS237,
+    ; missing docstring in magic method
+    D105,
+    ; Found % string formatting - need this for logger
+    WPS323,
+
+
+per-file-ignores =
+    drone_detection/shared/pl_model.py:
+        ; lowercase 'lightning' imported as non lowercase 'L'
+        N812,
+        ; too short name: L < 2
+        WPS111,
+    tests/*:
+        ; outer scope names shadowing
+        WPS442,
+        ; Missing docstring in public function
+        D103,
+        ; use of pickle module
+        S403,
+
+
+max-line-length = 79
+max-complexity = 15
+max-local-variables = 7
+
+strictness=long
+docstring_style=numpy
+
+; Set double quotes as the main one
+inline-quotes = "

@@ -38,13 +38,6 @@ repos:
         language: system
         types: [python]
 
-      - id: nbstripout
-        name: nbstripout
-        description: Strip output from Jupyter and IPython notebooks
-        entry: poetry run nbstripout
-        language: python
-        types: [jupyter]
-
       - id: mypy
         name: mypy
         description: Check types
@@ -52,9 +45,15 @@ repos:
         language: python
         types: [python]
 
-    #      - id: flake8
-#        name: flake8
-#        description: Python style guide enforcement
-#        entry: flake8
-#        language: python
-#        types: [python]
+      - id: flake8
+        name: flake8
+        description: Python style guide enforcement
+        entry: flake8
+        language: python
+        types: [python]
+
+
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.7.1
+    hooks:
+      - id: nbstripout
