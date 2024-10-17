@@ -8,9 +8,9 @@ from lightning.pytorch.loggers import TensorBoardLogger
 
 
 class PyLiModel(L.LightningModule):
-    def __init__(self, model, optimizer, loss_fn, metrics, lr_scheduler=None):
+    """PyTorch Lighting model."""
+    def __init__(self, model, optimizer, loss_fn, metrics, lr_scheduler):
         super().__init__()
-
         self.model = model
         self.loss_fn = loss_fn
         self.optimizer = optimizer
@@ -23,10 +23,10 @@ class PyLiModel(L.LightningModule):
     def forward(self, x):
         return self.model(x)
 
-    def on_fit_start(self) -> None:
-        tb_logger = self.logger
-        prototype_array = torch.Tensor(64, 1, 28, 28)
-        tb_logger.log_graph(model=self, input_array=prototype_array)
+    # def on_fit_start(self) -> None:
+    #     tb_logger = self.logger
+    #     prototype_array = torch.Tensor(64, 1, 28, 28)
+    #     tb_logger.log_graph(model=self, input_array=prototype_array)
 
     def _shared_step(self, batch):
         x, y = batch
@@ -39,8 +39,14 @@ class PyLiModel(L.LightningModule):
         loss, preds, y = self._shared_step(batch)
         accuracy = self.metrics.accuracy(preds, y)
 
-        self.log(MetricNames.train_loss.value, loss, on_step=False, on_epoch=True, prog_bar=True, logger=True)
-        self.log(MetricNames.train_accuracy.value, accuracy, on_step=False, on_epoch=True, prog_bar=True, logger=True)
+        self.log(
+            MetricNames.train_loss.value, loss,
+            on_step=False, on_epoch=True, prog_bar=True, logger=True,
+        )
+        self.log(
+            MetricNames.train_accuracy.value, accuracy,
+            on_step=False, on_epoch=True, prog_bar=True, logger=True,
+        )
         return loss
 
     def validation_step(self, batch, batch_idx):
@@ -48,9 +54,18 @@ class PyLiModel(L.LightningModule):
         accuracy = self.metrics.accuracy(preds, y)
         precision = self.metrics.precision(preds, y)
 
-        self.log(MetricNames.val_loss.value, loss, on_step=False, on_epoch=True, prog_bar=True, logger=True)
-        self.log(MetricNames.val_accuracy.value, accuracy, on_step=False, on_epoch=True, prog_bar=True, logger=True)
-        self.log(MetricNames.val_precision.value, precision, on_step=False, on_epoch=True, prog_bar=True, logger=True)
+        self.log(
+            MetricNames.val_loss.value, loss,
+            on_step=False, on_epoch=True, prog_bar=True, logger=True,
+        )
+        self.log(
+            MetricNames.val_accuracy.value, accuracy,
+            on_step=False, on_epoch=True, prog_bar=True, logger=True,
+        )
+        self.log(
+            MetricNames.val_precision.value, precision,
+            on_step=False, on_epoch=True, prog_bar=True, logger=True,
+        )
 
     def test_step(self, batch, batch_idx):
         loss, preds, y = self._shared_step(batch)
@@ -64,15 +79,6 @@ class PyLiModel(L.LightningModule):
         },
             on_step=False, on_epoch=True, prog_bar=True, logger=True,
         )
-
-    # def on_test_epoch_end(self) -> None:
-    #     test_preds = torch.cat(self.test_preds)
-    #     test_labels = torch.cat(self.test_labels)
-    #     self.metrics.confusion_matrix(test_preds.cpu().numpy(), test_labels.cpu().numpy())
-    #
-    #     self.test_preds.clear()
-    #     self.test_labels.clear()
-
 
     def configure_optimizers(self):
         optimizer = self.optimizer
@@ -92,6 +98,7 @@ class PyLiModel(L.LightningModule):
 
 
 class CustomTensorBoardLogger(TensorBoardLogger):
+    """Custom TensorBoard logger."""
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._trainer = None
@@ -105,7 +112,7 @@ class CustomTensorBoardLogger(TensorBoardLogger):
         self._trainer = trainer
 
     def _process_metrics(self, metrics, metric_type):
-        """Helper function to rename metrics."""
+        """Helper function to group metrics."""
         metric_mappings = {
             MetricNames.train_loss.value: f"{MetricNames.Loss.value}/{MetricNames.train_loss.value}",
             MetricNames.train_accuracy.value: f"{MetricNames.Metrics.value}/{MetricNames.train_accuracy.value}",
@@ -141,11 +148,7 @@ class CustomTensorBoardLogger(TensorBoardLogger):
 
 
 class CustomTQDMProgressBar(TQDMProgressBar):
-    # def init_validation_tqdm(self):
-    #     bar = super().init_validation_tqdm()
-    #     bar.leave = True
-    #     return bar
-
+    """Custom TQDM Progress Bar."""
     def get_metrics(self, trainer, pl_module):
         items = super().get_metrics(trainer, pl_module)
         items.pop("v_num", None)

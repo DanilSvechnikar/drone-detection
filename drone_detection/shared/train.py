@@ -28,7 +28,7 @@ ROOT_PATH = Path().resolve()
 CONFIG_PATH = ROOT_PATH
 
 
-@hydra.main(config_path=str(CONFIG_PATH), config_name="train")
+@hydra.main(version_base=None, config_path=str(CONFIG_PATH), config_name="train")
 def train_model(cfg: DictConfig):
     if cfg.clearml_enable:
         reuse_last_task_id = False
@@ -41,14 +41,16 @@ def train_model(cfg: DictConfig):
             reuse_last_task_id=reuse_last_task_id,
         )
 
+        task.connect(cfg)
+
     dataset_path = ROOT_PATH / cfg.dataset_path
     entire_dataset = datasets.MNIST(
-        root=dataset_path, train=True, transform=transforms.ToTensor(), download=False,
+        root=dataset_path, train=True, transform=transforms.ToTensor(), download=True,
     )
     train_ds, val_ds = random_split(entire_dataset, [50000, 10000])
 
     test_ds = datasets.MNIST(
-        root=dataset_path, train=False, transform=transforms.ToTensor(), download=False,
+        root=dataset_path, train=False, transform=transforms.ToTensor(), download=True,
     )
 
     train_loader = DataLoader(
@@ -104,13 +106,12 @@ def train_model(cfg: DictConfig):
 
     save_dir = ROOT_PATH / cfg.save_dir
     tb_logger = CustomTensorBoardLogger(save_dir=save_dir)
-    # csv_logger = CSVLogger("csv_logs")
 
     callbacks = [
         EarlyStopping(monitor="val_loss", patience=cfg.early_stopping_patience),
-        ModelCheckpoint(monitor="val_loss", filename="best", save_last=True),
         CustomTQDMProgressBar(leave=True),
         LearningRateMonitor(logging_interval="epoch"),
+        ModelCheckpoint(monitor="val_loss", filename="best", save_last=True),
     ]
 
     trainer = L.Trainer(
@@ -137,12 +138,6 @@ def train_model(cfg: DictConfig):
     )
 
     trainer.test(model, dataloaders=test_loader)
-
-    model_weights = model.state_dict()
-    for key in list(model_weights):
-        model_weights[key.replace("model.", "")] = model_weights.pop(key)
-
-    torch.save(model_weights, "best.pt")
 
 
 if __name__ == "__main__":

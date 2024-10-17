@@ -17,7 +17,7 @@ project-init: poetry-install tools-install
 
 .PHONY: poetry-install
 poetry-install:
-	poetry install --no-interaction --no-cache
+	poetry install --no-interaction
 
 .PHONY: pip-install
 pip-install: poetry-export
