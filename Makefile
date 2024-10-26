@@ -11,14 +11,28 @@ else
 endif
 
 
-#* Installation
-.PHONY: project-init
-project-init: poetry-install
+#* Installation for development
+.PHONY: project-init-dev
+project-init-dev: poetry-install-dev tools-install
 
-.PHONY: poetry-install
-poetry-install:
+.PHONY: poetry-install-dev
+poetry-install-dev:
+	poetry install --no-interaction
+
+.PHONY: tools-install
+tools-install:
+	poetry run pre-commit install --hook-type prepare-commit-msg --hook-type pre-commit
+	poetry run nbdime config-git --enable
+	poetry run mypy --install-types --non-interactive ./
+
+
+#* Installation Not for development
+.PHONY: project-init
+project-init:
 	poetry install --no-interaction --without dev
 
+
+#* Pip tools
 .PHONY: pip-install
 pip-install: poetry-export
 	pip3 install --no-cache-dir --upgrade pip && \
@@ -31,12 +45,6 @@ poetry-export:
 .PHONY: poetry-export-dev
 poetry-export-dev:
 	poetry lock -n && poetry export --with dev --without-hashes > requirements.dev.txt
-
-.PHONY: tools-install
-tools-install:
-	poetry run pre-commit install --hook-type prepare-commit-msg --hook-type pre-commit
-	poetry run nbdime config-git --enable
-	poetry run mypy --install-types --non-interactive ./
 
 
 #* Cleaning

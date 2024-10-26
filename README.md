@@ -2,12 +2,25 @@
 
 [![PythonSupported](https://img.shields.io/badge/python-3.12-brightgreen.svg)](https://python3statement.org/#sections50-why)
 [![poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
+[![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://pre-commit.com/)
+
+- [Overview](#overview)
+- [Repository contents](#repository-contents)
+- [System Requirements](#system-requirements)
+- [Deploy Locally](#deploy-locally)
+- [Code Launch](#code-launch)
+- [Deploy Docker](#deploy-docker)
+- [Data Links](#data-links)
 
 ## Overview
 The project includes data processing, neural network training and inference for drone detection.
 
-## Repository Contents
 
+## System Requirements
+- Python version: >= 3.12
+
+
+## Repository Contents
 - [demo](demo) - demonstrate the neural network
 - [drone_detection](drone_detection) - source files of the project
 - [notebooks](notebooks) - directory for `ipynb` notebooks to solve problems
@@ -15,93 +28,45 @@ The project includes data processing, neural network training and inference for 
 - [config](config) - configuration files for model
 - [data](data) - data for model training, validation and testing
 
-## Deploying the environment (not for development)
-### Preparations
 
-1. Install make
-    - Windows:
+## Deploy Locally
+> Not for development!
 
-        Install [chocolatey](https://chocolatey.org/install) and install `make` with command:
-
+1. Clone existing repository:
     ```bash
-    choco install make
+    git clone https://github.com/DanilSvechnikar/drone-detection.git && cd drone-detection
     ```
 
-    - Linux:
+2. Activate the virtual environment!
+<br></br>
 
+3. Install packages (about *+-5GB !*)
     ```bash
-    sudo apt install build-essential
+    pip install --no-cache-dir -r requirements.txt
     ```
 
-2. Install python 3.12
-    - Windows
 
-        Install with [official executable](https://www.python.org/downloads/)
+## Code Launch
 
-    - Linux
-
-    ```bash
-    sudo apt install python3.12
-    ```
-
-3. Install poetry
-
-   - Windows
-
-        Use [official instructions](https://python-poetry.org/docs/#windows-powershell-install-instructions) or use `powershell` command:
-
-    ```bash
-    (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
-    ```
-
-   - Linux
-
-        Use [official instructions](https://python-poetry.org/docs/#installing-with-the-official-installer) or bash command:
-
-    ```bash
-    curl -sSL https://install.python-poetry.org | python3 -
-    ```
-
-### Deployment
-1. Clone project
-
-    ```bash
-    git clone https://github.com/DanilSvechnikar/drone-detection.git -b develop
-    cd drone-detection
-   ```
-
-2. Packet initialization (about +-5GB!)
+Check cuda support if you want:
    ```bash
-   make project-init
+   python drone_detection/cuda_utils.py
    ```
 
-> **Note**: It is important that poetry sees the correct version of python on the system!
+Run [inference.py](./demo/inference.py):
 
-## Using a neural network
-> **Note**: Importing torch, ultralytics packages and initializing the model takes a lot of time!
-
-### Check cuda support
-   ```bash
-   poetry run python drone_detection/check_cuda.py
-   ```
-
-### Startup
-There are two choices:
-1. Through a [inference.py](./demo/inference.py):
-   ```bash
-   poetry run python ./demo/inference.py
-   ```
-
-    Or
-   - name_data - filename at path ./data/demo_data/*your_file*. By **default** is test_img.jpg
+- name_data - filename at path ./data/demo_data/`your_file`. By `default` is test_5.mp4
 
    ```bash
-   poetry run python ./demo/inference.py name_data=your_img_or_video
+   python ./demo/inference.py
    ```
 
-2. Through a [inference_jupyter.ipynb](./demo/inference_jupyter.ipynb) if you have the opportunity:
-- On the plus side: no need to re-import libraries and model every time
+Or run [inference_jupyter.ipynb](./demo/inference_jupyter.ipynb) \
+On the plus side: no need to re-import libraries and model every time
 
+
+## Deploy Docker
+I'll write later
 
 ## Data Links
   - https://app.roboflow.com/dronedetection-osldo/drone-detection-ch74g/1 (Self-Labeled Data)
