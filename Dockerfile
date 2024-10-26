@@ -19,15 +19,15 @@ RUN pip3 install --no-cache-dir --upgrade pip && \
 
 # Copy sources
 COPY drone_detection/ ./drone_detection
-COPY models/ ./models
-COPY demo/ ./demo
-COPY data/demo_data/ ./data/demo_data
 COPY config/ ./config
+COPY demo/inference.py ./
+COPY models/yolov10n_best.pt ./models/
+COPY data/demo_data/test_image.jpg ./data/demo_data/
+COPY data/demo_data/test_5.mp4 ./data/demo_data/
 
 # Cleaning
 RUN rm requirements.txt
 RUN pip3 cache purge
 
-#CMD ["start-notebook.sh", "--ServerApp.token=''", "--ServerApp.password=''"]
-#CMD ["python", "./demo/inference.py"]
+#CMD ["python", "inference.py"]
 CMD ["tail", "-f", "/dev/null"]

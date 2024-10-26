@@ -16,7 +16,7 @@ params_predict:
     conf: 0.5
     # iou: 0.6
 
-    # If there is no cuda, it will automatically be cpu
+    # If there is no cuda, then cpu will be selected automatically to avoid an error
     device: cuda
 
     verbose: False
