@@ -1,10 +1,11 @@
 """This file runs the model."""
+
 import hydra
 import torch.cuda
 from omegaconf import DictConfig, OmegaConf
 from ultralytics import YOLO
 
-from drone_detection.config import CONFIG_DIR, DEMO_DATA_DIR, MODELS_DIR
+from drone_detection import CONFIG_DIR, DEMO_DATA_DIR, MODELS_DIR
 from drone_detection.models_utils import predict_with_model
 
 
@@ -17,8 +18,8 @@ def inference(cfg: DictConfig) -> None:
     # Model show be in the path ./drone-detection/models/
     model_path = MODELS_DIR / cfg.name_model
 
-    if cfg.params_predict.device != "cpu":
-        device = "cuda" if torch.cuda.is_available() else "cpu"
+    if not torch.cuda.is_available():
+        device = "cpu"
         OmegaConf.update(cfg, "params_predict.device", device)
 
     model = YOLO(model_path)
