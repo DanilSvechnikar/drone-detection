@@ -15,7 +15,7 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.12,<3.13"
+python = ">=3.12"
 torch = {version = "^2.5.0+cu121", source = "pytorch-gpu-src"}
 torchvision = {version = "^0.20.0+cu121", source = "pytorch-gpu-src"}
 ultralytics = "^8.3.21"
