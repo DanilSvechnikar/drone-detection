@@ -13,11 +13,11 @@ endif
 
 #* Installation
 .PHONY: project-init
-project-init: poetry-install tools-install
+project-init: poetry-install
 
 .PHONY: poetry-install
 poetry-install:
-	poetry install --no-interaction
+	poetry install --no-interaction --without dev
 
 .PHONY: pip-install
 pip-install: poetry-export
@@ -36,12 +36,12 @@ poetry-export-dev:
 tools-install:
 	poetry run pre-commit install --hook-type prepare-commit-msg --hook-type pre-commit
 	poetry run nbdime config-git --enable
-	#poetry run mypy --install-types --non-interactive ./
+	poetry run mypy --install-types --non-interactive ./
 
 
 #* Cleaning
-.PHONY: clean-all
-clean-all: pycache-remove build-remove poetry-cache-clear pip-cache-clear
+.PHONY: clean-trash
+clean-trash: pycache-remove build-remove pip-cache-clear
 
 .PHONY: pycache-remove
 pycache-remove:
@@ -52,13 +52,29 @@ pycache-remove:
 build-remove:
 	rm -rf build/
 
+.PHONY: pip-cache-clear
+pip-cache-clear:
+	pip cache purge
+
 .PHONY: poetry-cache-clear
 poetry-cache-clear:
 	poetry cache clear --all . -n
 
-.PHONY: pip-cache-clear
-pip-cache-clear:
-	pip cache purge
+
+#* Docker
+include .env.docker
+
+.PHONY: docker-make-image
+docker-make-image:
+	docker build -t drone-detection .
+
+.PHONY: docker-cont-gpu
+docker-cont-gpu:
+	docker run --rm -it --gpus=all -p ${HOST}:${PORT}:${PORT} --name drone-cont-gpu drone-detection
+
+.PHONY: docker-cont-cpu
+docker-cont-cpu:
+	docker run --rm -it -p ${HOST}:${PORT}:${PORT} --name drone-cont-cpu drone-detection
 
 
 #* Tests
