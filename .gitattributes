@@ -1,0 +1,7 @@
+*.ipynb	diff=jupyternotebook
+*.ipynb	merge=jupyternotebook
+
+*.pt filter=lfs diff=lfs merge=lfs -text
+
+data/demo_data/test_image.jpg filter=lfs diff=lfs merge=lfs -text
+data/demo_data/test_5.mp4 filter=lfs diff=lfs merge=lfs -text
