@@ -34,7 +34,8 @@ The project includes data processing, neural network training and inference for 
 
 1. Clone existing repository:
     ```bash
-    git clone https://github.com/DanilSvechnikar/drone-detection.git && cd drone-detection
+    git clone https://github.com/DanilSvechnikar/drone-detection.git
+    cd drone-detection
     ```
 
 2. Activate the virtual environment!
@@ -55,18 +56,19 @@ Check cuda support if you want:
 
 Run [inference.py](./demo/inference.py):
 
+Parameters:
 - name_data - filename at path ./data/demo_data/`your_file`. By `default` is test_5.mp4
 
    ```bash
    python ./demo/inference.py
    ```
 
-Or run [inference_jupyter.ipynb](./demo/inference_jupyter.ipynb) \
-On the plus side: no need to re-import libraries and model every time
+Or you can set parameters in the [inference.yaml](./config/inference.yaml) \
+and run [inference_jupyter.ipynb](./demo/inference_jupyter.ipynb) \
 
 
 ## Deploy Docker
 I'll write later
 
 ## Data Links
-  - https://app.roboflow.com/dronedetection-osldo/drone-detection-ch74g/1 (Self-Labeled Data)
+  - link to dataset (self-labeled)
