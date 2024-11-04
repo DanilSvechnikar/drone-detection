@@ -54,17 +54,20 @@ Check cuda support if you want:
    python drone_detection/cuda_utils.py
    ```
 
-Run [inference.py](./demo/inference.py):
-
-Parameters:
-- name_data - filename at path ./data/demo_data/`your_file`. By `default` is test_5.mp4
-
+Run [inference.py](./inference.py):
    ```bash
-   python ./demo/inference.py
+   python inference.py
    ```
 
+Example with parameters:
+- name_data - filename at path ./data/demo_data/`your_file`. By `default` is test_5.mp4
+   ```bash
+   python inference.py name_data=test_image.jpg
+   ```
+
+\
 Or you can set parameters in the [inference.yaml](./config/inference.yaml) \
-and run [inference_jupyter.ipynb](./demo/inference_jupyter.ipynb) \
+and run [inference_jupyter.ipynb](./demo/inference_jupyter.ipynb)
 
 
 ## Deploy Docker
