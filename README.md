@@ -38,10 +38,10 @@ The project includes data processing, neural network training and inference for 
     cd drone-detection
     ```
 
-2. Activate the virtual environment!
+2. **Activate the virtual environment before installing the packages!**
 <br></br>
 
-3. Install packages (about *+-5GB !*)
+3. Install packages (about *5-6GB !*)
     ```bash
     pip install --no-cache-dir -r requirements.txt
     ```
